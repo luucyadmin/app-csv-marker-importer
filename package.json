@@ -1,0 +1,9 @@
+{
+  "name": "8362d94fd98cc35c8d34c438c56f28e6e11547edfb87ed4ae2e488d46ea1d0ab",
+  "displayName": "CSV Marker Importer",
+  "author": "luucy AG",
+  "version": "1.0.0",
+  "dependencies": {
+    "luucy-types": "^2.9.2"
+  }
+}
