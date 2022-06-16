@@ -1,4 +1,4 @@
-const uploader = new Upload("*.csv");
+const uploader = new ui.Upload("*.csv");
 uploader.onUpload.subscribe(file => {
     file.toString().then(content => {
         const lines = content.split("\n");
@@ -31,7 +31,7 @@ uploader.onUpload.subscribe(file => {
 
                 // create marker
                 markers.push(new map.Marker(
-                    new map.Position(
+                    new GlobalPosition(
                         +fields[latitudeColumnIndex], 
                         +fields[longitudeColumnIndex]
                     )
