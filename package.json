@@ -1,5 +1,5 @@
 {
-	"name": "plugin-csv-marker-importer",
+	"name": "csv-marker-importer",
 	"displayName": "CSV Marker Importer",
 	"icon": "icon.svg",
 	"author": "luucy AG",
