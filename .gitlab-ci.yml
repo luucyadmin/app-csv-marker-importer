@@ -1,94 +1,10 @@
+stages: [translation, translation-pull, version, build, deployment]
 
-variables:
-  GITLAB_GIT_USR_EMAIL: 'gitlab_pipeline@luucy.ch'
-  GITLAB_GIT_USR_NAME: 'gitlab_pipeline'
-  GITLAB_REGISTRY_URL: '$CI_API_V4_URL/projects/43757880/packages/generic'
-
-stages:
-  - translation
-  - version
-  - build
-  - update
-
-dummy:
-  stage: translation
-  script: echo "Dummy job for merge-request so that the pipeline is triggered."
-  rules:
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-
-translation:
-  stage: translation
-  image: crowdin/cli
-  script:
-    - crowdin upload sources --token $CROWDIN_API_TOKEN --project-id $CROWDIN_PROJECT_ID
-  rules:
-    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
-
-version_read:
-  stage: version
-  image: node:latest
-  script:
-    - |
-        APP_NAME=$(node -p "require('./package.json').name")
-        echo "Creating a new version of : $APP_NAME"
-        echo "APP_NAME=$APP_NAME"  >> app_detail.env
-        current_version=$(node -p "require('./package.json').version")
-        new_version=$(echo "$current_version" | awk -F. '{$NF = $NF + 1;} 1' OFS=.)
-        echo "New version: $new_version"
-        echo "APP_VERSION=$new_version" >> app_detail.env
-  artifacts:
-    paths:
-      - app_detail.env
-  rules:
-    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
-
-build_app:
-  stage: build
-  image: node:latest
-  script:
-    - source app_detail.env
-    - echo "Building the $APP_VERSION"
-    - apt-get update
-    - apt-get install -y jq
-    - npm i -g luucy-cli
-    - npm i
-    - git config user.email "$GITLAB_GIT_USR_EMAIL"
-    - git config user.name "$GITLAB_GIT_USR_NAME"
-    - git remote add gitlab_origin https://repository-write:${REPOSITORY_TOKEN}@gitlab.com/${CI_PROJECT_PATH}.git
-    - git status
-    - git reset --hard
-    - luucy scope build
-    - luucy publish $APP_VERSION
-    - echo "-------------"
-    - export APP_FILE=$APP_NAME-$APP_VERSION.lpb 
-    - echo "Checking the file:$APP_FILE"
-    - |
-        if [ ! -f bundles/$APP_FILE ]; then
-            echo "File bundles/$APP_FILE does not exists!";
-            exit -1;
-        fi
-    - echo "-------------"
-    - echo "Uploading to the Package registry"
-    - |
-      upload_resp=$(curl $GITLAB_REGISTRY_URL/$APP_NAME/$APP_VERSION/$APP_FILE \
-        --header "PRIVATE-TOKEN: $PACKAGE_REGISTRY_TOKEN" \
-        --upload-file bundles/$APP_FILE)
-    - upload_message=$(echo "$upload_resp" | jq -r '.message')
-    - |
-        if [[ "$upload_message" == "201 Created" ]]; then
-            echo "Bundle $APP_FILE uploaded successfully";
-        else
-            echo "Error uploading bundle $APP_FILE: $upload_message!";
-            exit -1;
-        fi
-    - git push gitlab_origin HEAD:$CI_COMMIT_REF_NAME -o ci.skip
-    #  Pass the variables to the next phase
-    - echo "APP_PATH=$APP_PATH" >> app_file.env
-    - echo "APP_VERSION=$APP_VERSION" >> app_file.env
-    - echo "APP_FILE=$APP_FILE" >> app_file.env
-  artifacts:
-    paths:
-      - app_file.env
-      - bundles/
-  rules:
-    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+include:
+  - component: gitlab.com/luucy/sdk/ci-components/crowdin_push@main
+  - component: gitlab.com/luucy/sdk/ci-components/crowdin_pull@main
+  - component: gitlab.com/luucy/sdk/ci-components/version_increment@main
+  - component: gitlab.com/luucy/sdk/ci-components/build_try@main
+  - component: gitlab.com/luucy/sdk/ci-components/build_publish@main
+  - component: gitlab.com/luucy/sdk/ci-components/deployment@main
+  
