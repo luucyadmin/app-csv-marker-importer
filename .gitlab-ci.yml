@@ -1,0 +1,10 @@
+stages: [translation, translation-pull, version, build, deployment]
+
+include:
+  - component: gitlab.com/luucy/sdk/ci-components/crowdin_push@main
+  - component: gitlab.com/luucy/sdk/ci-components/crowdin_pull@main
+  - component: gitlab.com/luucy/sdk/ci-components/version_increment@main
+  - component: gitlab.com/luucy/sdk/ci-components/build_try@main
+  - component: gitlab.com/luucy/sdk/ci-components/build_publish@main
+  - component: gitlab.com/luucy/sdk/ci-components/deployment@main
+  
