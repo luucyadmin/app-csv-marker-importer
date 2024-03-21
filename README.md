@@ -1,16 +1,12 @@
-# CSV Marker Importer
-This is an example luucy plugin.
+# CSV Marker Importer - LUUCY Plugin
 
-You'll need [Node JS](https://nodejs.org/en/) installed on your system.
-We recommend using [Visual Studio Code](https://code.visualstudio.com) as your code editor, but any normal editor should work too.
+This repository contains an example [LUUCY](https://luucy.ch/) plugin.
 
-After installing node js, open a terminal and type the following commands ot install the luucy command line interface and typescript:
-```
-$ npm install -g luucy-cli typescript
-```
+## Requirements
+- [Node JS](https://nodejs.org/en/)
 
-Open the downloaded directory in your editor and use the following commands to start developing locally!
-
-```
-$ luucy serve
-```
+## Instructions
+- clone this repository
+- install LUUCY CLI: `npm install -g luucy-cli`
+- install dependencies: `npm install`
+- run the plugin in debug mode: `luucy serve`
