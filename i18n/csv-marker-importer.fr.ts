@@ -1,3 +1,3 @@
 export default {
-  Loading: 'Loading'
+  Loading: "Chargement"
 };
