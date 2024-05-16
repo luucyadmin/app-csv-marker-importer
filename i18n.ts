@@ -1,6 +1,6 @@
-import de from "./i18n/de";
-import en from "./i18n/en";
-import fr from "./i18n/fr";
+import de from "./i18n/csv-marker-importer.de";
+import en from "./i18n/csv-marker-importer.en";
+import fr from "./i18n/csv-marker-importer.fr";
 
 type I18nParams = {[key: string]: any};
 type I18nFunction = {

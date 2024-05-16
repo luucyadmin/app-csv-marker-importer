@@ -5,9 +5,9 @@
 
 files: [
  {
-  "source" : "/i18n/en.ts",
-  "dest": "/plugin/csv-marker-importer/en.ts",
-  "translation" : "/i18n/%two_letters_code%.ts",
+  "source" : "/i18n/csv-marker-importer.en.ts",
+  "dest": "/plugin/csv-marker-importer/csv-marker-importer.en.ts",
+  "translation" : "/i18n/csv-marker-importer.%two_letters_code%.ts",
   "update_option": "update_as_unapproved",
   "labels" : [
       "csv-marker-importer"
