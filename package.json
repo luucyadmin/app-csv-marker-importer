@@ -4,7 +4,7 @@
 	"icon": "icon.svg",
 	"author": "luucy AG",
 	"productId": 238,
-	"version": "1.0.5",
+	"version": "1.0.6",
 	"scopes": [
 		"core",
 		"map",
