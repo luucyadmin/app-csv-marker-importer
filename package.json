@@ -7,13 +7,14 @@
 	"version": "1.0.6",
 	"scopes": [
 		"core",
+		"data",
 		"map",
 		"ui"
 	],
 	"dependencies": {
-		"luucy-types": "^10.20.3"
+		"luucy-types": "git+ssh://git@gitlab.com:luucy/sdk/luucy-types.git#next/3.7"
 	},
 	"devDependencies": {
-		"typescript": "^4.7.2"
+		"typescript": "^5.6.3"
 	}
 }
