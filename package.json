@@ -12,7 +12,7 @@
 		"ui"
 	],
 	"dependencies": {
-		"luucy-types": "10.24.16"
+		"luucy-types": "git+ssh://git@gitlab.com:luucy/sdk/luucy-types.git#next/3.9"
 	},
 	"devDependencies": {
 		"typescript": "^5.6.3"
